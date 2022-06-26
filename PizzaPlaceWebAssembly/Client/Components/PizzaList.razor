@@ -1,0 +1,13 @@
+﻿@if (Pizzas is null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <h1>@Title</h1>
+
+    @foreach (var pizza in Pizzas)
+    {
+        <PizzaItem Pizza="@pizza" OnPizzaSelected="@OnPizzaSelected"></PizzaItem>
+    }
+}

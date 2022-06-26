@@ -1,0 +1,45 @@
+﻿@page "/"
+
+@using PizzaPlaceWebAssembly.Client.Components;
+
+<PageTitle>Index</PageTitle>
+
+<!-- BASKET -->
+<ShoppingBasket
+    Orders="@State.Basket.Orders"
+    GetPizzaById="@State.Menu.GetPizza"
+    OnRemoveItem="@RemoveFromBasket" />
+
+@State.ToJson()
+
+<!-- CUSTOMER -->
+<CustomerEntry
+    Title="Checkout"
+    @bind-Customer="@State.Basket.Customer"
+    OnPlaceOrder="@PlaceOrder" />
+
+<!-- MENU -->
+<PizzaList 
+    Title="Discover the best pizzas in town!"
+    Pizzas="@State.Menu.Pizzas"
+    OnPizzaSelected="@AddToBasket"
+    />
+
+@code {
+    public AppState State { get; set; } = new AppState();
+
+    private string GetSpicyImage(Spiciness spiciness) => $"images/{spiciness.ToString().ToLower()}.jpg";
+
+    private void AddToBasket(Pizza pizza) => State.Basket.Orders.Add(pizza.Id);
+
+    private void RemoveFromBasket(int pos) => State.Basket.Orders.RemoveAt(pos);
+
+    private void PlaceOrder() => Console.WriteLine(State.ToJson());
+
+    protected override void OnInitialized()
+    {
+        State.Menu.Add(new Pizza(1, "Pepperoni", 8.99M, Spiciness.Spicy ));
+        State.Menu.Add(new Pizza(2, "Margarita", 7.99M, Spiciness.None));
+        State.Menu.Add(new Pizza(3, "Diabolo", 9.99M, Spiciness.Hot));
+    }
+}

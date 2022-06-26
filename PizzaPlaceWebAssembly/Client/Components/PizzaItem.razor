@@ -1,0 +1,17 @@
+﻿<div class="row pt-1">
+    <div class="col">
+        @Pizza.Name
+    </div>
+    <div class="col">
+        @($"{Pizza.Price:0.00}")
+    </div>
+    <div class="col"></div>
+    <div class="col">
+        <img src="@GetSpicyImage(Pizza.Spiciness)" alt="@Pizza.Spiciness" class="img-thumbnail" style="width: 50px;" />
+    </div>
+    <div class="col">
+        <button class="btn btn-success px-4" @onclick="@(() => OnPizzaSelected.InvokeAsync(Pizza))">
+            Add
+        </button>
+    </div>
+</div>
