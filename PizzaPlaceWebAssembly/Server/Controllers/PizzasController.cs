@@ -3,7 +3,6 @@ using PizzaPlaceWebAssembly.Shared;
 
 namespace PizzaPlaceWebAssembly.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class PizzasController : ControllerBase
     {
@@ -14,20 +13,13 @@ namespace PizzaPlaceWebAssembly.Server.Controllers
             _dbContext = dbContext;
         }
 
-        private static readonly List<Pizza> pizzas = new List<Pizza>
+        [HttpGet("/pizzas2")]
+        public IList<Pizza> GetPizzas()
         {
-            new Pizza(1, "Pepperoni", 8.99M, Spiciness.Spicy ),
-            new Pizza(2, "Margarita", 7.99M, Spiciness.None ),
-            new Pizza(3, "Diabolo", 9.99M, Spiciness.Hot )
-        };
-
-        [HttpGet("/")]
-        public IQueryable<Pizza> GetPizzas()
-        {
-            return _dbContext.Pizzas;
+            return _dbContext.Pizzas.ToList();
         }
 
-        [HttpPost("/")]
+        [HttpPost("/pizzas")]
         public IActionResult InsertPizza([FromBody] Pizza pizza)
         {
             _dbContext.Add(pizza);

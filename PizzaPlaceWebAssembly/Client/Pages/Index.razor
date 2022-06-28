@@ -6,7 +6,10 @@
 
 <PageTitle>Index</PageTitle>
 
-<!-- BASKET -->
+
+@if (State.Menu.Pizzas.Any())
+{
+    <!-- BASKET -->
 <ShoppingBasket
     Orders="@State.Basket.Orders"
     GetPizzaById="@State.Menu.GetPizza"
@@ -24,6 +27,11 @@
     Pizzas="@State.Menu.Pizzas"
     OnPizzaSelected="@AddToBasket"
     />
+}
+else
+{
+    <h1>Loading...</h1>
+}
 
 @code {
     public AppState State { get; set; } = new AppState();
