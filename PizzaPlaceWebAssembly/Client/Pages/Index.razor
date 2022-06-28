@@ -1,6 +1,8 @@
 ﻿@page "/"
 
 @using PizzaPlaceWebAssembly.Client.Components;
+@inject IMenuService MenuService;
+@inject IOrderService OrderService;
 
 <PageTitle>Index</PageTitle>
 
@@ -9,8 +11,6 @@
     Orders="@State.Basket.Orders"
     GetPizzaById="@State.Menu.GetPizza"
     OnRemoveItem="@RemoveFromBasket" />
-
-@State.ToJson()
 
 <!-- CUSTOMER -->
 <CustomerEntry
@@ -34,12 +34,18 @@
 
     private void RemoveFromBasket(int pos) => State.Basket.Orders.RemoveAt(pos);
 
-    private void PlaceOrder() => Console.WriteLine(State.ToJson());
-
-    protected override void OnInitialized()
+    private async Task PlaceOrder()
     {
-        State.Menu.Add(new Pizza(1, "Pepperoni", 8.99M, Spiciness.Spicy ));
-        State.Menu.Add(new Pizza(2, "Margarita", 7.99M, Spiciness.None));
-        State.Menu.Add(new Pizza(3, "Diabolo", 9.99M, Spiciness.Hot));
+        await OrderService.PlaceOrder(State.Basket);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Menu menu = await MenuService.GetMenuAsync();
+
+        foreach (Pizza pizza in menu.Pizzas)
+        {
+            State.Menu.Add(pizza);
+        }
     }
 }

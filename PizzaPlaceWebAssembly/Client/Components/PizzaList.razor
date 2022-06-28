@@ -4,10 +4,13 @@
 }
 else
 {
-    <h1>@Title</h1>
-
-    @foreach (var pizza in Pizzas)
-    {
-        <PizzaItem Pizza="@pizza" OnPizzaSelected="@OnPizzaSelected"></PizzaItem>
-    }
+    <ItemList Items="Pizzas">
+        <Header>
+            <h1>@Title</h1>
+        </Header>
+        <RowTemplate Context="pizza">
+            <PizzaItem Pizza="@pizza" OnPizzaSelected="@OnPizzaSelected" ButtonTitle="Add"></PizzaItem>
+        </RowTemplate>
+    </ItemList>
 }
+

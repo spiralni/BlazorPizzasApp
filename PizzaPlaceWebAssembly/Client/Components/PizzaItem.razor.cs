@@ -9,6 +9,9 @@ namespace PizzaPlaceWebAssembly.Client.Components
         public Pizza Pizza { get; set; } = default!;
 
         [Parameter]
+        public string ButtonTitle { get; set; } = default!;
+
+        [Parameter]
         public EventCallback<Pizza> OnPizzaSelected { get; set; } = default!;
 
         private string GetSpicyImage(Spiciness spiciness) => $"images/{spiciness.ToString().ToLower()}.jpg";
